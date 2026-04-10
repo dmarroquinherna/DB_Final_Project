@@ -70,7 +70,7 @@ while($row = mysqli_fetch_assoc($r3)){
     <tr>
         <td class="c1">
             <div>' . $row["product_name"] . '</div>
-            <img class="thumb" src="' . $img . '" alt="' . $row["product_name"] . '">
+            
         </td>
         <td class="c2">
             <div>Ingredients / Info:</div>
