@@ -1,0 +1,27 @@
+gym_site/
+    db1.php
+    index.php
+    members.php
+    nutrition.php
+    training.php
+    style.css
+    images/
+        gym1.jpg
+        gym2.jpg
+        gym3.jpg
+        membership_1.jpg
+        membership_2.jpg
+        membership_3.jpg
+        membership_4.jpg
+        employee_1.jpg
+        employee_2.jpg
+        employee_3.jpg
+        employee_4.jpg
+        product_1.jpg
+        product_2.jpg
+        product_3.jpg
+        product_4.jpg
+        equipment_1.jpg
+        equipment_2.jpg
+        equipment_3.jpg
+        equipment_4.jpg
