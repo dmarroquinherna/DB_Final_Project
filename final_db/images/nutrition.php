@@ -1,14 +1,9 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 include("db1.php");
 
 $message = "";
 
-/* =========================
-   Query 9: INSERT
-========================= */
+/* Query 9: INSERT */
 if (isset($_POST['insert_product'])) {
     $product_name = mysqli_real_escape_string($con, $_POST['product_name']);
     $price = mysqli_real_escape_string($con, $_POST['price']);
@@ -25,34 +20,27 @@ if (isset($_POST['insert_product'])) {
     }
 }
 
-/* =========================
-   Query 11: STRING FUNCTION (UPDATED)
-========================= */
-$q1 = "SELECT product_id,
-              product_name,
-              CONCAT('Ingredients: ', LEFT(description, 40), '...') AS short_description,
+/* Query 7: String function */
+$q1 = "SELECT product_id, product_name,
+              UPPER(description) AS ingredients_info,
               price
        FROM Nutrition_Products";
 $r1 = mysqli_query($con, $q1) or die(mysqli_error($con));
 
 $string_products = '<table class="section-table">
-<tr><th>ID</th><th>Product</th><th>Description Preview</th><th>Price</th></tr>';
-
+<tr><th>ID</th><th>Product</th><th>Ingredients / Info</th><th>Price</th></tr>';
 while($row = mysqli_fetch_assoc($r1)){
     $string_products .= '
     <tr>
         <td>' . $row["product_id"] . '</td>
         <td>' . $row["product_name"] . '</td>
-        <td>' . $row["short_description"] . '</td>
+        <td>' . $row["ingredients_info"] . '</td>
         <td>$' . $row["price"] . '</td>
     </tr>';
 }
-
 $string_products .= '</table>';
 
-/* =========================
-   Query 8: NUMERIC FUNCTION
-========================= */
+/* Query 8: Numeric function */
 $q2 = "SELECT product_id, product_name, price,
               ROUND(price * 1.06, 2) AS price_with_tax
        FROM Nutrition_Products";
@@ -60,7 +48,6 @@ $r2 = mysqli_query($con, $q2) or die(mysqli_error($con));
 
 $numeric_products = '<table class="section-table">
 <tr><th>ID</th><th>Product</th><th>Base Price</th><th>Price With Tax</th></tr>';
-
 while($row = mysqli_fetch_assoc($r2)){
     $numeric_products .= '
     <tr>
@@ -70,25 +57,20 @@ while($row = mysqli_fetch_assoc($r2)){
         <td>$' . $row["price_with_tax"] . '</td>
     </tr>';
 }
-
 $numeric_products .= '</table>';
 
-/* =========================
-   MAIN NUTRITION DISPLAY
-========================= */
+/* Main nutrition menu */
 $q3 = "SELECT * FROM Nutrition_Products";
 $r3 = mysqli_query($con, $q3) or die(mysqli_error($con));
 
 $nutrition = '<table class="section-table">';
-
 while($row = mysqli_fetch_assoc($r3)){
     $img = "images/product_" . $row["product_id"] . ".jpg";
-
     $nutrition .= '
     <tr>
         <td class="c1">
             <div>' . $row["product_name"] . '</div>
-            <img class="thumb" src="' . $img . '" alt="' . $row["product_name"] . '">
+            
         </td>
         <td class="c2">
             <div>Ingredients / Info:</div>
@@ -97,17 +79,14 @@ while($row = mysqli_fetch_assoc($r3)){
         </td>
     </tr>';
 }
-
 $nutrition .= '</table>';
 ?>
-
 <html>
 <head>
     <title>Final Gym DB - Nutrition</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
 <div class="navbar">
     <a href="index.php">Home</a>
     <a href="members.php">Members</a>
@@ -121,36 +100,28 @@ $nutrition .= '</table>';
 
     <?php echo $message; ?>
 
+    <h2>Ingredients and Nutrition Info</h2>
+    <?php echo $nutrition; ?>
 
-    <!-- STRING FUNCTION -->
-    <h2>Menu</h2>
+    <h2>String Function Display</h2>
     <?php echo $string_products; ?>
-
     <div class="query-box">
-        <h3>Query 11- String Function</h3>
-        <pre>
-SELECT product_id,
-       product_name,
-       CONCAT('Ingredients: ', LEFT(description, 40), '...') AS short_description,
+        <h3>Query 7 - String Function</h3>
+        <pre>SELECT product_id, product_name,
+       UPPER(description) AS ingredients_info,
        price
-FROM Nutrition_Products;
-        </pre>
+FROM Nutrition_Products;</pre>
     </div>
 
-    <!-- NUMERIC FUNCTION -->
-    <h2>Price with Tax</h2>
+    <h2>Numeric Function Display</h2>
     <?php echo $numeric_products; ?>
-
     <div class="query-box">
         <h3>Query 8 - Numeric Function</h3>
-        <pre>
-SELECT product_id, product_name, price,
+        <pre>SELECT product_id, product_name, price,
        ROUND(price * 1.06, 2) AS price_with_tax
-FROM Nutrition_Products;
-        </pre>
+FROM Nutrition_Products;</pre>
     </div>
 
-    <!-- INSERT FORM -->
     <h2>Insert New Nutrition Product</h2>
     <form method="post" class="form-box">
         <label>Product Name:</label>
@@ -167,26 +138,11 @@ FROM Nutrition_Products;
 
         <button type="submit" name="insert_product">Insert Product</button>
     </form>
-
     <div class="query-box">
         <h3>Query 9 - Insert Query</h3>
-        <pre>
-INSERT INTO Nutrition_Products (product_name, price, description, Invoices_invoice_id)
-VALUES ('Protein Shake', 8.99, 'Banana, whey protein, almond milk', 1);
-        </pre>
+        <pre>INSERT INTO Nutrition_Products (product_name, price, description, Invoices_invoice_id)
+VALUES ('Protein Shake', 8.99, 'Banana, whey protein, almond milk', 1);</pre>
     </div>
-
-    <!-- EXTRA UI -->
-    <h2>Smoothie Bar Menu</h2>
-    <div class="ad-box">
-        <div>Try our post-workout smoothies and supplements</div>
-        <div class="subtext">Powered by Nutrition_Products table</div>
-    </div>
-</div>
-
-<div class="footer">
-    Nutrition data dynamically loaded from final_db
-</div>
 
 </body>
 </html>

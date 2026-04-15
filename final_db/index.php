@@ -89,7 +89,9 @@ $employees .= '</table>';
 ?>
 <html>
 <head>
-    <title>Final Gym DB - Home</title>
+    <title>System for Integrated Gym Management Application
+S.I.G.M.A
+ - Home</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -102,7 +104,9 @@ $employees .= '</table>';
 </div>
 
 <div class="wrapper">
-    <h1>Final Gym Database</h1>
+    <h1>System for Integrated Gym Management Application
+S.I.G.M.A
+</h1>
 
     <h2>Our Gym</h2>
     <div class="hero-gallery">
